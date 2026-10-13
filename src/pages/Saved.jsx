@@ -3,13 +3,14 @@ import EmptyState from "../components/EmptyState";
 import PollCard from "../components/PollCard";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 export default function Saved() {
   const { token } = useAuth();
   const [polls, setPolls] = useState([]);
   const [error, setError] = useState("");
   useEffect(() => {
-    fetch(`${API_BASE_URL}/polls/bookmarks`, {
+    apiFetch(`${API_BASE_URL}/polls/bookmarks`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (response) => {

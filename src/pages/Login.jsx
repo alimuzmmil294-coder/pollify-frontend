@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 export default function Login() {
   const location = useLocation();
@@ -38,49 +39,13 @@ export default function Login() {
     }));
   };
 
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setError("");
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch("http://localhost:3500/api/auth/login", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     const data = await response.json();
-
-  //     // Check if user needs email verification first
-  //     if (response.status === 403 && data.needsVerification) {
-  //       toast.info(data.message || "Please verify your email before logging in.");
-  //       navigate("/verify-email", { state: { email: formData.email } });
-  //       return;
-  //     }
-
-  //     if (!response.ok || !data.success) {
-  //       throw new Error(data.message || "Invalid email or password.");
-  //     }
-
-  //     login(data.user || data);
-  //     toast.success(data.message || "Welcome back!");
-  //     navigate("/");
-  //   } catch (err) {
-  //     setError(err.message || "An unexpected error occurred.");
-  //     toast.error(err.message || "Login failed.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await apiFetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

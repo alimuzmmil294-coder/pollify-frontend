@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { MailCheck, ArrowRight, Loader2, RefreshCw } from "lucide-react";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 export default function VerifyEmail() {
   const location = useLocation();
@@ -18,7 +19,7 @@ export default function VerifyEmail() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+      const response = await apiFetch(`${API_BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, code }),
@@ -49,7 +50,7 @@ export default function VerifyEmail() {
 
     setResending(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/resend-otp`, {
+      const response = await apiFetch(`${API_BASE_URL}/auth/resend-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

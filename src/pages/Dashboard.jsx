@@ -5,6 +5,7 @@ import { filterTabs } from "../data/mockData";
 import { useAuth } from "../context/AuthContext";
 import { usePolls } from "../context/PollContext";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 const typeMap = {
   "Yes / No": "yesno",
@@ -44,7 +45,7 @@ export default function Dashboard() {
           headers["Authorization"] = `Bearer ${token}`;
         }
 
-        const response = await fetch(`${API_BASE_URL}/polls`, {
+        const response = await apiFetch(`${API_BASE_URL}/polls`, {
           method: "GET",
           headers,
         });
@@ -88,7 +89,7 @@ export default function Dashboard() {
     try {
       setIsPosting(true);
 
-      const response = await fetch(`${API_BASE_URL}/polls`, {
+      const response = await apiFetch(`${API_BASE_URL}/polls`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

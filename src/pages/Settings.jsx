@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 import ConfirmDialog from "../components/ConfirmDialog";
 import PageHeader from "../components/PageHeader";
 import PasswordInput from "../components/PasswordInput";
@@ -46,7 +47,7 @@ export default function Settings() {
       const hasImage = Boolean(image);
       const body = hasImage ? new FormData() : JSON.stringify({ name, username, bio });
       if (hasImage) { body.append("name", name); body.append("username", username); body.append("bio", bio); body.append("image", image); }
-      const response = await fetch(`${API_BASE_URL}/auth/profile`, { method: "PATCH", headers: hasImage ? authHeaders : { ...authHeaders, "Content-Type": "application/json" }, body });
+      const response = await apiFetch(`${API_BASE_URL}/auth/profile`, { method: "PATCH", headers: hasImage ? authHeaders : { ...authHeaders, "Content-Type": "application/json" }, body });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Could not save profile.");
       updateUser(data.user);
@@ -63,7 +64,7 @@ export default function Settings() {
     if (newPassword !== confirmPassword) return setFieldError("New passwords do not match.");
     setPasswordSaving(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/password`, { method: "PATCH", headers: { ...authHeaders, "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword, newPassword }) });
+      const response = await apiFetch(`${API_BASE_URL}/auth/password`, { method: "PATCH", headers: { ...authHeaders, "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword, newPassword }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Could not update password.");
       setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
@@ -74,7 +75,7 @@ export default function Settings() {
   async function deleteAccount() {
     setDeleting(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/account`, { method: "DELETE", headers: authHeaders });
+      const response = await apiFetch(`${API_BASE_URL}/auth/account`, { method: "DELETE", headers: authHeaders });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Could not delete account.");
       logout();

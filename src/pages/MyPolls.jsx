@@ -3,6 +3,7 @@ import EmptyState from "../components/EmptyState";
 import PollCard from "../components/PollCard";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 export default function MyPolls() {
   const { token } = useAuth();
@@ -10,7 +11,7 @@ export default function MyPolls() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/polls/mine`, {
+    apiFetch(`${API_BASE_URL}/polls/mine`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (response) => {

@@ -3,6 +3,7 @@ import PollCard from "../components/PollCard";
 import EmptyState from "../components/EmptyState";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 
 export default function Voted() {
   const { token } = useAuth();
@@ -16,7 +17,7 @@ export default function Voted() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch(`${API_BASE_URL}/polls/voted`, {
+        const res = await apiFetch(`${API_BASE_URL}/polls/voted`, {
           headers: {
             "Content-Type": "application/json",
             ...(token && { Authorization: `Bearer ${token}` }),

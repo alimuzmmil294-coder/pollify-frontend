@@ -4,6 +4,7 @@ import Icon from "../components/Icon";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../config.js";
+import { apiFetch } from "../lib/api.js";
 import { usePolls } from "../context/PollContext";
 import PageHeader from "../components/PageHeader";
 import { Button } from "../components/ui/Button";
@@ -130,7 +131,7 @@ export default function CreatePoll() {
           if (file) payload.append("images", file);
         });
 
-        response = await fetch(`${API_BASE_URL}/polls/`, {
+        response = await apiFetch(`${API_BASE_URL}/polls/`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -145,7 +146,7 @@ export default function CreatePoll() {
           options: type === "single" ? options.filter((o) => o.trim()) : [],
         };
 
-        response = await fetch(`${API_BASE_URL}/polls/`, {
+        response = await apiFetch(`${API_BASE_URL}/polls/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
